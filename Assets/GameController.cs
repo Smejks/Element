@@ -1,14 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameController : MonoBehaviour
 {
 
     public List<GameObject> elements = new List<GameObject>();
-    public List<GameObject> sequence = new List<GameObject>();
+    public List<string> sequence = new List<string>();
+    public List<GameObject> playedSequence = new List<GameObject>();
     public GameObject Button;
-
+    
 
     void Start()
     {
@@ -18,6 +20,19 @@ public class GameController : MonoBehaviour
         {
             Instantiate(elements[3], new Vector2(transform.position.x + i * 2.2f, transform.position.y), Quaternion.identity);
         }
+
+        if (SceneManager.GetActiveScene().buildIndex == 2)
+        {
+            for (int i = 0; i < 7; i++)
+            {
+                string _seq;
+                _seq = "playerSequence[" + i + "]";
+                sequence.Add(PlayerPrefs.GetString(_seq));
+
+            }
+            PlaySequence();
+        }
+
     }
 
     public void Update()
@@ -27,13 +42,17 @@ public class GameController : MonoBehaviour
         else
             Button.SetActive(false);
 
+
     }
 
     public void AddElement(int element)
     {
         if (sequence.Count < 7)
         {
-            sequence.Add(Instantiate(elements[element], new Vector2(transform.position.x + sequence.Count * 2.2f, transform.position.y), Quaternion.identity));
+            playedSequence.Add(Instantiate(elements[element], new Vector2(transform.position.x + sequence.Count * 2.2f, transform.position.y), Quaternion.identity));
+            sequence.Add(elements[element].tag);
+
+            Debug.Log(sequence[sequence.Count - 1]);
         }
     }
 
@@ -41,14 +60,43 @@ public class GameController : MonoBehaviour
     {
         if (sequence.Count > 0)
         {
-            Destroy(sequence[sequence.Count - 1]);
+            Destroy(playedSequence[sequence.Count - 1]);
+            playedSequence.RemoveAt(sequence.Count - 1);
             sequence.RemoveAt(sequence.Count - 1);
         }
     }
 
     public void SaveSequence()
     {
-        //Save Sequence List to JSON
+        for (int i = 0; i < playedSequence.Count; i++)
+        {
+            PlayerPrefs.SetString("playerSequence[" + i + "]", sequence[i]);
+            Debug.Log("Move saved:" + i + ":" + sequence[i]);                       
+        }
+    }
+
+    public void PlaySequence()
+    {
+        Debug.Log("Play!");
+        for (int i = 0; i < sequence.Count; i++)
+        {
+
+            switch (sequence[i])
+            {
+                case "Grass":
+                    Instantiate(GetComponent<GameController>().elements[0], new Vector2(transform.position.x + playedSequence.Count * 2.2f, transform.position.y), Quaternion.identity);
+                    break;
+                case "Water":
+                    Instantiate(GetComponent<GameController>().elements[1], new Vector2(transform.position.x + playedSequence.Count * 2.2f, transform.position.y), Quaternion.identity);
+                    break;
+                case "Fire:":
+                    Instantiate(GetComponent<GameController>().elements[2], new Vector2(transform.position.x + playedSequence.Count * 2.2f, transform.position.y), Quaternion.identity);
+                    break;
+                default:
+                    break;
+            }
+
+        }
     }
 
 

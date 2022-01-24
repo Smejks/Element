@@ -13,7 +13,7 @@ public class OpponentController : MonoBehaviour
     {
         // Set Sequence to opponents ssequence saved to JSON, Sequence = JsonUtility.FromJson<OpponentSequence>(jsonString);
         
-        RandomizeSequence();
+        DelaySequence();
         for (int i = 0; i < 7; i++)
         {
             Instantiate(types[3], new Vector2(transform.position.x + i * 2.2f, transform.position.y), Quaternion.identity);
@@ -26,17 +26,19 @@ public class OpponentController : MonoBehaviour
         time += Time.deltaTime;
     }
 
-    public void RandomizeSequence()
+    public void DelaySequence()
     {
         
-        for (int i = 0; i < 7;)
+        for (int i = 0; i < 7; i++)
         {
-            time = 0;
-            sequence.Add(Instantiate(types[Random.Range(0, 3)], new Vector2(transform.position.x + sequence.Count * 2.2f, transform.position.y), Quaternion.identity));
-            if (time > 1)
-                i++;
+            Invoke("DrawOpponentSequence", i);
         }
 
+    }
+
+    public void DrawOpponentSequence()
+    {
+        sequence.Add(Instantiate(types[Random.Range(0, 3)], new Vector2(transform.position.x + sequence.Count * 2.2f, transform.position.y), Quaternion.identity));
     }
 
 

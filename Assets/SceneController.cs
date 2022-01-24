@@ -36,11 +36,15 @@ public class SceneController : MonoBehaviour
 
     public void ChangeScene()
     {
-        currentScene = SceneManager.GetActiveScene().buildIndex;
-        if (currentScene < SceneManager.sceneCount)
-            SceneManager.LoadScene(currentScene + 1);
-        else
-            SceneManager.LoadScene(1);
+        Debug.Log("Change Scene");
+
+        SceneManager.LoadScene(2);
+        
+        //currentScene = SceneManager.GetActiveScene().buildIndex;
+        //if (currentScene < SceneManager.sceneCount - 1)
+        //    SceneManager.LoadScene(currentScene + 1);
+        //else
+        //    SceneManager.LoadScene(1);
 
     }
 
