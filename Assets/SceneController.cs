@@ -11,18 +11,7 @@ public class SceneController : MonoBehaviour
 
     int currentScene;
 
-    private void Awake()
-    {
-        if (_instance == null)
-        {
-            _instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(this.gameObject);
-        }
-    }
+   
 
     void Start()
     {
@@ -34,11 +23,9 @@ public class SceneController : MonoBehaviour
 
     }
 
-    public void ChangeScene()
+    public void NextScene()
     {
-        Debug.Log("Change Scene");
-
-        SceneManager.LoadScene(2);
+        SceneManager.LoadScene(1);
         
         //currentScene = SceneManager.GetActiveScene().buildIndex;
         //if (currentScene < SceneManager.sceneCount - 1)
@@ -46,6 +33,10 @@ public class SceneController : MonoBehaviour
         //else
         //    SceneManager.LoadScene(1);
 
+    }
+    public void PrevScene()
+    {
+        SceneManager.LoadScene(0);
     }
 
 }

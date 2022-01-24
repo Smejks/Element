@@ -7,8 +7,8 @@ public class GameController : MonoBehaviour
 {
 
     public List<GameObject> elements = new List<GameObject>();
-    public List<string> sequence = new List<string>();
-    public List<GameObject> playedSequence = new List<GameObject>();
+    public List<string> sequenceTags = new List<string>();
+    public List<GameObject> sequenceGameObjects = new List<GameObject>();
     public GameObject Button;
     
 
@@ -16,89 +16,47 @@ public class GameController : MonoBehaviour
     {
         Button.SetActive(false);
 
+        //draw unused tiles
         for (int i = 0; i < 7; i++)
         {
             Instantiate(elements[3], new Vector2(transform.position.x + i * 2.2f, transform.position.y), Quaternion.identity);
         }
 
-        if (SceneManager.GetActiveScene().buildIndex == 2)
-        {
-            for (int i = 0; i < 7; i++)
-            {
-                string _seq;
-                _seq = "playerSequence[" + i + "]";
-                sequence.Add(PlayerPrefs.GetString(_seq));
+        
 
-            }
-            PlaySequence();
-        }
 
     }
 
     public void Update()
     {
-        if (sequence.Count == 7)
-            Button.SetActive(true);
+        if (sequenceTags.Count == 7)
+            ActivateButton();
         else
             Button.SetActive(false);
-
-
     }
 
     public void AddElement(int element)
     {
-        if (sequence.Count < 7)
+        if (sequenceTags.Count < 7)
         {
-            playedSequence.Add(Instantiate(elements[element], new Vector2(transform.position.x + sequence.Count * 2.2f, transform.position.y), Quaternion.identity));
-            sequence.Add(elements[element].tag);
-
-            Debug.Log(sequence[sequence.Count - 1]);
+            sequenceGameObjects.Add(Instantiate(elements[element], new Vector2(transform.position.x + sequenceTags.Count * 2.2f, transform.position.y), Quaternion.identity));
+            sequenceTags.Add(elements[element].tag);
         }
     }
 
     public void RemoveElement()
     {
-        if (sequence.Count > 0)
+        //Remove game object from world and from list of gameobjects, also remove tag from list of tags
+        if (sequenceTags.Count > 0)
         {
-            Destroy(playedSequence[sequence.Count - 1]);
-            playedSequence.RemoveAt(sequence.Count - 1);
-            sequence.RemoveAt(sequence.Count - 1);
+            Destroy(sequenceGameObjects[sequenceTags.Count - 1]);
+            sequenceGameObjects.RemoveAt(sequenceTags.Count - 1);
+            sequenceTags.RemoveAt(sequenceTags.Count - 1);
         }
     }
 
-    public void SaveSequence()
+    public void ActivateButton()
     {
-        for (int i = 0; i < playedSequence.Count; i++)
-        {
-            PlayerPrefs.SetString("playerSequence[" + i + "]", sequence[i]);
-            Debug.Log("Move saved:" + i + ":" + sequence[i]);                       
-        }
+        Button.SetActive(true);
     }
-
-    public void PlaySequence()
-    {
-        Debug.Log("Play!");
-        for (int i = 0; i < sequence.Count; i++)
-        {
-
-            switch (sequence[i])
-            {
-                case "Grass":
-                    Instantiate(GetComponent<GameController>().elements[0], new Vector2(transform.position.x + playedSequence.Count * 2.2f, transform.position.y), Quaternion.identity);
-                    break;
-                case "Water":
-                    Instantiate(GetComponent<GameController>().elements[1], new Vector2(transform.position.x + playedSequence.Count * 2.2f, transform.position.y), Quaternion.identity);
-                    break;
-                case "Fire:":
-                    Instantiate(GetComponent<GameController>().elements[2], new Vector2(transform.position.x + playedSequence.Count * 2.2f, transform.position.y), Quaternion.identity);
-                    break;
-                default:
-                    break;
-            }
-
-        }
-    }
-
-
-
 }
