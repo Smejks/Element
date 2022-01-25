@@ -2,15 +2,20 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+using TMPro;
 
 public class GameController : MonoBehaviour
 {
+
 
     public List<GameObject> elements = new List<GameObject>();
     public List<string> sequenceTags = new List<string>();
     public List<GameObject> sequenceGameObjects = new List<GameObject>();
     public GameObject Button;
-    
+    public TMP_Text ButtonText;
+
+
 
     void Start()
     {
@@ -30,7 +35,7 @@ public class GameController : MonoBehaviour
     public void Update()
     {
         if (sequenceTags.Count == 7)
-            ActivateButton();
+            ActivateFightButton();
         else
             Button.SetActive(false);
     }
@@ -55,8 +60,14 @@ public class GameController : MonoBehaviour
         }
     }
 
-    public void ActivateButton()
+    public void ActivateFightButton()
     {
         Button.SetActive(true);
+    }
+    
+    public void ActivateReturnButton(string message)
+    {
+        Button.SetActive(true);
+        ButtonText.text = message;
     }
 }

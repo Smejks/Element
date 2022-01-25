@@ -8,8 +8,6 @@ public class SaveController : MonoBehaviour
     public static SaveController Instance { get { return _instance; } }
 
 
-    public GameObject local;
-    public GameObject remote;
     public List<string> localSequence = new List<string>();
     public List<string> remoteSequence = new List<string>();
 
@@ -28,8 +26,9 @@ public class SaveController : MonoBehaviour
 
     public void SaveSequence()
     {
-        localSequence = local.GetComponent<GameController>().sequenceTags;
-        remoteSequence = remote.GetComponent<OpponentController>().sequence;
+
+        localSequence = FindObjectOfType<GameController>().sequenceTags;
+        remoteSequence = FindObjectOfType<OpponentController>().sequence;
         for (int i = 0; i < 7; i++)
         {
             PlayerPrefs.SetString("playerSequence[" + i + "]", localSequence[i]);
@@ -44,6 +43,18 @@ public class SaveController : MonoBehaviour
             localSequence.Add(PlayerPrefs.GetString("playerSequence[" + i + "]"));
             remoteSequence.Add(PlayerPrefs.GetString("remoteSequence[" + i + "]"));
         }
+    }
+
+    public void ClearSequence()
+    {
+        //for (int i = 0; i < 7; i++)
+        //{
+        //    PlayerPrefs.DeleteKey("playerSequence[" + i + "]");
+        //    PlayerPrefs.DeleteKey("remoteSequence[" + i + "]");
+        //}
+
+        localSequence.Clear();
+        remoteSequence.Clear();
     }
 
 }

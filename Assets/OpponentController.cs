@@ -4,9 +4,12 @@ using UnityEngine;
 
 public class OpponentController : MonoBehaviour
 {
+
+  
     public List<GameObject> types = new List<GameObject>();
     public List<string> sequence = new List<string>();
     public List<GameObject> rndSequence = new List<GameObject>();
+
 
     void Start()
     {
