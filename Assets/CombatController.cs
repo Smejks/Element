@@ -14,6 +14,7 @@ public class CombatController : MonoBehaviour
     public float offsetY = 8f;
     public float resultOffsetY = 160.5f;
     public int score;
+    public float timer;
 
 
     void Start()
@@ -23,16 +24,18 @@ public class CombatController : MonoBehaviour
         opponentSequence = SaveController.Instance.remoteSequence;
 
 
-        DelaySequence();
+        StartCoroutine("DelaySequence", 0);
 
     }
 
     void Update()
     {
+        timer += Time.deltaTime;
+
         if (results.Count == 7)
         {
             if (score > 0)
-            gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU WIN!");
+                gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU WIN!");
             if (score < 0)
                 gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU LOSE!");
             if (score == 0)
@@ -43,20 +46,21 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    void DelaySequence()
+    IEnumerator DelaySequence(int i)
     {
-
-        for (int i = 0; i < 7; i++)
-        {
-            DrawPlayerSequence(i);
-            DrawOpponentSequence(i);
-            ResolveCombat(i);
-        }
+        Debug.Log("Started Loop");
+        DrawPlayerSequence(i);
+        DrawOpponentSequence(i);
+        ResolveCombat(i);
+        
+        yield return new WaitForSeconds(0.5f);
+        i++;
+        if (i < 7)
+            StartCoroutine("DelaySequence", i);
     }
 
     public void DrawPlayerSequence(int i)
     {
-
         switch (playerSequence[i])
         {
             case "Grass":
@@ -71,11 +75,6 @@ public class CombatController : MonoBehaviour
             default:
                 break;
         }
-
-
-
-
-
     }
 
     public void DrawOpponentSequence(int i)
@@ -94,6 +93,8 @@ public class CombatController : MonoBehaviour
                 break;
             default:
                 break;
+
+
         }
     }
 
