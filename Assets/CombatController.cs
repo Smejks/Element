@@ -19,7 +19,6 @@ public class CombatController : MonoBehaviour
 
     void Start()
     {
-        //SaveController.Instance.LoadSequence();
         playerSequence = SaveController.Instance.localSequence;
         opponentSequence = SaveController.Instance.remoteSequence;
 
@@ -42,7 +41,6 @@ public class CombatController : MonoBehaviour
                 gc.GetComponentInChildren<GameController>().ActivateReturnButton("TIE!");
 
             SaveController.Instance.ClearSequence();
-            CalculateWinner();
         }
     }
 
@@ -134,18 +132,4 @@ public class CombatController : MonoBehaviour
             score++;
         }
     }
-
-    public void CalculateWinner()
-    {
-
-        if (score > 0)
-            Debug.Log("You Win!");
-        if (score < 0)
-            Debug.Log("You lose!");
-        if (score == 0)
-            Debug.Log("It's a tie!");
-
-    }
-
-
 }

@@ -13,18 +13,18 @@ public class OpponentController : MonoBehaviour
 
     void Start()
     {
-        // Set Sequence to opponents ssequence saved to JSON, Sequence = JsonUtility.FromJson<OpponentSequence>(jsonString);
-        for (int i = 0; i < 7; i++)
-        {
-            int tag;
-            tag = Random.Range(0, 3);
-            if (tag == 0)
-            sequence.Add("Grass");
-            else if (tag == 1)
-                sequence.Add("Water");
-            else
-                sequence.Add("Fire");
-        }
+        //for (int i = 0; i < 7; i++)
+        //{
+        //    int tag;
+        //    tag = Random.Range(0, 3);
+        //    if (tag == 0)
+        //    sequence.Add("Grass");
+        //    else if (tag == 1)
+        //        sequence.Add("Water");
+        //    else
+        //        sequence.Add("Fire");
+        //}
+        sequence = SaveController.LoadSequence("saveData1");
 
         for (int i = 0; i < 7; i++)
         {

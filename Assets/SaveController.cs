@@ -1,6 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
+using System.Text;
 
 public class SaveController : MonoBehaviour
 {
@@ -10,6 +12,9 @@ public class SaveController : MonoBehaviour
 
     public List<string> localSequence = new List<string>();
     public List<string> remoteSequence = new List<string>();
+    
+    string nick = "bajs";
+    int score = 100;
 
     private void Awake()
     {
@@ -29,32 +34,44 @@ public class SaveController : MonoBehaviour
 
         localSequence = FindObjectOfType<GameController>().sequenceTags;
         remoteSequence = FindObjectOfType<OpponentController>().sequence;
-        for (int i = 0; i < 7; i++)
-        {
-            PlayerPrefs.SetString("playerSequence[" + i + "]", localSequence[i]);
-            PlayerPrefs.SetString("remoteSequence[" + i + "]", remoteSequence[i]);
-        }
+
+        var playerdata = new PlayerSaveData(nick, localSequence, score);
+        string jsonString = JsonUtility.ToJson(playerdata);
+        SaveToFile("saveData", jsonString);
     }
 
-    public void LoadSequence()
+    public static List<string> LoadSequence(string fileName)
     {
-        for (int i = 0; i < 7; i++)
-        {
-            localSequence.Add(PlayerPrefs.GetString("playerSequence[" + i + "]"));
-            remoteSequence.Add(PlayerPrefs.GetString("remoteSequence[" + i + "]"));
-        }
+        string jsonString = SaveController.LoadFromFile(fileName);
+        PlayerSaveData playerdata = JsonUtility.FromJson<PlayerSaveData>(jsonString);
+        return playerdata.sequence;
     }
 
     public void ClearSequence()
     {
-        //for (int i = 0; i < 7; i++)
-        //{
-        //    PlayerPrefs.DeleteKey("playerSequence[" + i + "]");
-        //    PlayerPrefs.DeleteKey("remoteSequence[" + i + "]");
-        //}
-
         localSequence.Clear();
         remoteSequence.Clear();
     }
 
+    void SaveToFile(string fileName, string jsonString)
+    {
+        string path = @".\JSONdata\" + fileName + ".json";
+        using (var stream = File.OpenWrite(path))
+        {
+            stream.SetLength(0);
+            var bytes = Encoding.UTF8.GetBytes(jsonString);
+            stream.Write(bytes, 0, bytes.Length);
+        }
+    }
+
+
+
+    static string LoadFromFile(string fileName)
+    {
+        string path = @".\JSONdata\" + fileName + ".json";
+        using (var stream = File.OpenText(path))
+        {
+            return stream.ReadToEnd();
+        }
+    }
 }
