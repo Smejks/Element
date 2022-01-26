@@ -30,7 +30,7 @@ public class AudioController : MonoBehaviour
     {
         song = Random.Range(0, songs.Count);
         audiosource = GetComponent<AudioSource>();
-        if (song == 0)
+        if (song == 0 || song == 2)
             audiosource.PlayOneShot(songs[song], 0.4f);
         else
             audiosource.PlayOneShot(songs[song], 0.6f);
@@ -45,7 +45,7 @@ public class AudioController : MonoBehaviour
             song = Random.Range(0, songs.Count);
         }
         if (!audiosource.isPlaying)
-            if (song == 0)
+            if (song == 0 || song == 2)
                 audiosource.PlayOneShot(songs[song], 0.4f);
             else
                 audiosource.PlayOneShot(songs[song], 0.6f);

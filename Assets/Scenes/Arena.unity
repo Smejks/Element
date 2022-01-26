@@ -295,6 +295,8 @@ MonoBehaviour:
   songs:
   - {fileID: 8300000, guid: 8f26c68432ce58846a079a7096c2b4b5, type: 3}
   - {fileID: 8300000, guid: 275b0408772da57468561698b1202829, type: 3}
+  - {fileID: 8300000, guid: 03116bcfbe55be044b2164c2e1811d01, type: 3}
+  - {fileID: 8300000, guid: 2e1e2769a6e325344af0551b9f80d612, type: 3}
   soundEffects:
   - {fileID: 8300000, guid: 9591f3bbec776854c8d595097e941bb1, type: 3}
   - {fileID: 8300000, guid: d93dd66685267154a8e7b283ee33c704, type: 3}
