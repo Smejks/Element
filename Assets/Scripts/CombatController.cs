@@ -6,6 +6,7 @@ public class CombatController : MonoBehaviour
 {
     public GameObject gc;
     public GameObject oc;
+
     public List<string> playerSequence = new List<string>();
     public List<string> opponentSequence = new List<string>();
     public List<GameObject> indicators = new List<GameObject>();
@@ -14,47 +15,41 @@ public class CombatController : MonoBehaviour
     public float offsetY = 8f;
     public float resultOffsetY = 160.5f;
     public int score;
-    public float timer;
+
+    bool fightOver;
 
     AudioController audioController;
 
     void Start()
     {
+        fightOver = false;
         playerSequence = SaveController.Instance.localSequence;
         opponentSequence = SaveController.Instance.remoteSequence;
         audioController = FindObjectOfType<AudioController>();
-
         StartCoroutine("DelaySequence", 0);
-
     }
 
     void Update()
     {
-        timer += Time.deltaTime;
-        if (results.Count == 7)
-        {
-            if (score > 0)
-            {
-                gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU WIN!");
-            }
-            else if (score < 0)
-            {
-                gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU LOSE!");
-            }
-            else
-            {
-                gc.GetComponentInChildren<GameController>().ActivateReturnButton("TIE!");
-            }
-            SaveController.Instance.ClearSequence();
+        if (fightOver) RenderButton();
 
+    }
 
+    private void RenderButton() {
+        if (score > 0) {
+            gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU WIN!");
         }
-
+        else if (score < 0) {
+            gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU LOSE!");
+        }
+        else {
+            gc.GetComponentInChildren<GameController>().ActivateReturnButton("TIE!");
+        }
+        SaveController.Instance.ClearSequence();
     }
 
     IEnumerator DelaySequence(int i)
     {
-        Debug.Log("Started Loop");
         DrawPlayerSequence(i);
         DrawOpponentSequence(i);
         ResolveCombat(i);
@@ -102,66 +97,60 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void ResolveCombat(int i)
-    {
-        if (opponentSequence[i] == playerSequence[i])
-        {
+    public void ResolveCombat(int i) {
+        if (opponentSequence[i] == playerSequence[i]) {
             results.Add(Instantiate(indicators[0], new Vector2(transform.position.x + i * 2.2f, transform.position.y - resultOffsetY), Quaternion.identity, transform));
             audioController.PlaySFX(5);
         }
-        else if (opponentSequence[i] == "Grass" && playerSequence[i] == "Water")
-        {
+        else if (opponentSequence[i] == "Grass" && playerSequence[i] == "Water") {
             results.Add(Instantiate(indicators[1], new Vector2(transform.position.x + i * 2.2f, transform.position.y - resultOffsetY), Quaternion.identity, transform));
             score--;
             audioController.PlaySFX(6);
         }
-        else if (opponentSequence[i] == "Grass" && playerSequence[i] == "Fire")
-        {
+        else if (opponentSequence[i] == "Grass" && playerSequence[i] == "Fire") {
             results.Add(Instantiate(indicators[2], new Vector2(transform.position.x + i * 2.2f, transform.position.y - resultOffsetY), Quaternion.identity, transform));
             score++;
             audioController.PlaySFX(4);
         }
-        else if (opponentSequence[i] == "Water" && playerSequence[i] == "Fire")
-        {
+        else if (opponentSequence[i] == "Water" && playerSequence[i] == "Fire") {
             results.Add(Instantiate(indicators[1], new Vector2(transform.position.x + i * 2.2f, transform.position.y - resultOffsetY), Quaternion.identity, transform));
             score--;
             audioController.PlaySFX(6);
         }
-        else if (opponentSequence[i] == "Water" && playerSequence[i] == "Grass")
-        {
+        else if (opponentSequence[i] == "Water" && playerSequence[i] == "Grass") {
             results.Add(Instantiate(indicators[2], new Vector2(transform.position.x + i * 2.2f, transform.position.y - resultOffsetY), Quaternion.identity, transform));
             score++;
             audioController.PlaySFX(4);
         }
-        else if (opponentSequence[i] == "Fire" && playerSequence[i] == "Grass")
-        {
+        else if (opponentSequence[i] == "Fire" && playerSequence[i] == "Grass") {
             results.Add(Instantiate(indicators[1], new Vector2(transform.position.x + i * 2.2f, transform.position.y - resultOffsetY), Quaternion.identity, transform));
             score--;
             audioController.PlaySFX(6);
         }
-        else if (opponentSequence[i] == "Fire" && playerSequence[i] == "Water")
-        {
+        else if (opponentSequence[i] == "Fire" && playerSequence[i] == "Water") {
             results.Add(Instantiate(indicators[2], new Vector2(transform.position.x + i * 2.2f, transform.position.y - resultOffsetY), Quaternion.identity, transform));
             score++;
             audioController.PlaySFX(4);
         }
 
-        if (results.Count == 7)
-        {
-            if (score > 0)
-            {
+        Invoke("DisplayResults", 0.5f);
+    }
+
+    private void DisplayResults() {
+        if (results.Count == 7) {
+            fightOver = true;
+            if (score > 0) {
                 audioController.GetComponent<AudioSource>().Stop();
                 audioController.PlaySFX(7);
+                //Add score to player
             }
-            else if (score < 0)
-            {
-                //audioController.GetComponent<AudioSource>().Stop();
+            else if (score < 0) {
                 audioController.PlaySFX(9);
+                //Add score to opponent
             }
-            else
-            {
-                //audioController.GetComponent<AudioSource>().Stop();
+            else {
                 audioController.PlaySFX(8);
+                //Initiate tiebreaker
             }
         }
     }
