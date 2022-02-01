@@ -297,6 +297,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 275b0408772da57468561698b1202829, type: 3}
   - {fileID: 8300000, guid: 03116bcfbe55be044b2164c2e1811d01, type: 3}
   - {fileID: 8300000, guid: 2e1e2769a6e325344af0551b9f80d612, type: 3}
+  - {fileID: 8300000, guid: 93b5d5444b3d9be4ab6e1732ae6a8b51, type: 3}
   soundEffects:
   - {fileID: 8300000, guid: 9591f3bbec776854c8d595097e941bb1, type: 3}
   - {fileID: 8300000, guid: d93dd66685267154a8e7b283ee33c704, type: 3}
@@ -313,6 +314,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a00902591ea6fa84fbb6b86315d3605d, type: 3}
   - {fileID: 8300000, guid: c5bf46bd80ff4b84f8bbeaa64a5d66fb, type: 3}
   song: 0
+  lastSong: 0
   sfx: 0
 --- !u!4 &268133704
 Transform:

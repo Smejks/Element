@@ -29,27 +29,28 @@ public class AudioController : MonoBehaviour {
     }
 
     private void Update() {
-        if (!audiosource.isPlaying) {
+        if (!audiosource.isPlaying) { 
             RandomizeSong();
         }
         
             
 
     }
-
-    private void PlayNewSong() {
-        if (song == 0 || song == 2)
-            audiosource.PlayOneShot(songs[song], 0.4f);
-        else
-            audiosource.PlayOneShot(songs[song], 0.6f);
-    }
-
     private void RandomizeSong() {
         song = Random.Range(0, songs.Count);
         if (song != lastSong)
             PlayNewSong();
         else RandomizeSong();
     }
+
+    private void PlayNewSong() {
+        lastSong = song;
+        if (song == 0 || song == 2 || song == 4)
+            audiosource.PlayOneShot(songs[song], 0.4f);
+        else
+            audiosource.PlayOneShot(songs[song], 0.6f);
+    }
+
 
     public void PlaySFX(int sfx) {
         if (sfx != 2)

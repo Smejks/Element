@@ -13,18 +13,25 @@ public class OpponentController : MonoBehaviour
 
     void Start()
     {
-        //for (int i = 0; i < 7; i++)
-        //{
-        //    int tag;
-        //    tag = Random.Range(0, 3);
-        //    if (tag == 0)
-        //    sequence.Add("Grass");
-        //    else if (tag == 1)
-        //        sequence.Add("Water");
-        //    else
-        //        sequence.Add("Fire");
-        //}
-        sequence = SaveController.LoadSequence("saveData1");
+        if (SaveController.LoadSequence("saveData1") != null) {
+
+
+            sequence = SaveController.LoadSequence("saveData1");
+            Debug.Log("Loaded Sequence");
+        }
+        else {
+            for (int i = 0; i < 7; i++) {
+                int tag;
+                tag = Random.Range(0, 3);
+                if (tag == 0)
+                    sequence.Add("Grass");
+                else if (tag == 1)
+                    sequence.Add("Water");
+                else
+                    sequence.Add("Fire");
+            }
+            Debug.Log("Randomized Sequence");
+        }
 
         for (int i = 0; i < 7; i++)
         {
