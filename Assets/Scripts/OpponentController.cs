@@ -13,13 +13,13 @@ public class OpponentController : MonoBehaviour
 
     void Start()
     {
-        if (SaveController.LoadSequence("saveData1") != null) {
+        //if (SaveController.LoadSequence("saveData1") != null) {
 
 
-            sequence = SaveController.LoadSequence("saveData1");
-            Debug.Log("Loaded Sequence");
-        }
-        else {
+        //    sequence = SaveController.LoadSequence("saveData1");
+        //    Debug.Log("Loaded Sequence");
+        //}
+        //else {
             for (int i = 0; i < 7; i++) {
                 int tag;
                 tag = Random.Range(0, 3);
@@ -29,7 +29,7 @@ public class OpponentController : MonoBehaviour
                     sequence.Add("Water");
                 else
                     sequence.Add("Fire");
-            }
+            //}
             Debug.Log("Randomized Sequence");
         }
 
