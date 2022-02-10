@@ -13,6 +13,6 @@ public class ButtonController : MonoBehaviour
 
     public void Fight()
     {
-        SaveController.Instance.SaveSequence();   
+        SaveController.Instance.SaveSequence();
     }
 }

@@ -23,8 +23,8 @@ public class CombatController : MonoBehaviour
     void Start()
     {
         fightOver = false;
-        playerSequence = SaveController.Instance.localSequence;
-        opponentSequence = SaveController.Instance.remoteSequence;
+        playerSequence = SaveData.Instance.localSequence;
+        opponentSequence = SaveData.Instance.remoteSequence;
         audioController = FindObjectOfType<AudioController>();
         StartCoroutine("DelaySequence", 0);
     }
@@ -45,7 +45,7 @@ public class CombatController : MonoBehaviour
         else {
             gc.GetComponentInChildren<GameController>().ActivateReturnButton("TIE!");
         }
-        SaveController.Instance.ClearSequence();
+        //SaveData.Instance.ClearSequence();
     }
 
     IEnumerator DelaySequence(int i)

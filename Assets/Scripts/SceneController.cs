@@ -15,6 +15,7 @@ public class SceneController : MonoBehaviour
     void Start()
     {
         audioController = FindObjectOfType<AudioController>();
+        currentScene = SceneManager.GetActiveScene().buildIndex;
     }
 
     void Update()
@@ -33,13 +34,16 @@ public class SceneController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         audioController.PlaySFX(13);
             yield return new WaitForSeconds(0.5f);
+        SceneManager.LoadScene(2);
+    }
+
+    public void FightScene()
+    {
+        if (currentScene != 0)
+        audioController.PlaySFX(12);
         SceneManager.LoadScene(1);
     }
 
-    public void PrevScene()
-    {
-        audioController.PlaySFX(12);
-        SceneManager.LoadScene(0);
-    }
+
 
 }

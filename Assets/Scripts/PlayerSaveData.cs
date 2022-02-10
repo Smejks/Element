@@ -7,13 +7,27 @@ using UnityEngine;
 [Serializable]
 public class PlayerSaveData
 {
-    public string nick;
-    public List<string> sequence;
-    public int score;
-    public PlayerSaveData(string nick, List<string> sequence, int score)
+    public string email;
+    public string pass;
+    public PlayerSaveData(string email, string pass)
     {
-        this.nick = nick;
-        this.sequence = sequence;
-        this.score = score;
+        this.email = email;
+        this.pass = pass;
     }
+
+
+}
+
+public class SequenceData : MonoBehaviour
+{
+    public List<string> sequence;
+
+
+
+    public SequenceData(List<string> sequence)
+    {
+        this.sequence = sequence;
+    }
+
+
 }
