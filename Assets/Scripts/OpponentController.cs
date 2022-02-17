@@ -5,11 +5,11 @@ using UnityEngine;
 public class OpponentController : MonoBehaviour
 {
 
-  
     public List<GameObject> types = new List<GameObject>();
     public List<string> sequence = new List<string>();
     public List<GameObject> rndSequence = new List<GameObject>();
 
+    public float offsetX = 2.2f;
 
     void Start()
     {
@@ -36,7 +36,7 @@ public class OpponentController : MonoBehaviour
         for (int i = 0; i < 7; i++)
         {
             //draw empty tiles
-            Instantiate(types[3], new Vector2(transform.position.x + i * 2.2f, transform.position.y), Quaternion.identity);
+            Instantiate(types[3], new Vector2(transform.position.x + i * offsetX, transform.position.y), Quaternion.identity);
         }
 
     }

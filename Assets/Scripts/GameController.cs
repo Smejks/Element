@@ -70,4 +70,9 @@ public class GameController : MonoBehaviour
         Button.SetActive(true);
         ButtonText.text = message;
     }
+
+    public void ConfirmSequence()
+    {
+        //SaveManager.SaveObject<List<string>>("games/" + User.activeGame.gameID + "/players/")
+    }
 }
