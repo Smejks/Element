@@ -13,10 +13,8 @@ public class OpponentController : MonoBehaviour
 
     void Start()
     {
-        //if (SaveController.LoadSequence("saveData1") != null) {
+        //sequence = SaveManager.LoadObject($"games/{game.gameID}/players/")
 
-
-        //    sequence = SaveController.LoadSequence("saveData1");
         //    Debug.Log("Loaded Sequence");
         //}
         //else {

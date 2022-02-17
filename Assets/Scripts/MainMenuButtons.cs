@@ -22,8 +22,15 @@ public class MainMenuButtons : MonoBehaviour
 
     public void FindGame()
     {
-        if (User.user == null)
+        if (User.user == null || User.activeGame != null)
             return;
         User.MatchMake();
+    }
+
+    public void LeaveGame()
+    {
+        if (User.activeGame == null)
+            return;
+        User.LeaveGame();
     }
 }

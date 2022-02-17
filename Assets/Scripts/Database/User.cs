@@ -72,9 +72,20 @@ public class User : MonoBehaviour
         foundGame = await GameFinder.CreateGame();
         if (foundGame != null) {
             activeGame = foundGame;
+            print(activeGame.ToString());
             return;
         }
         print("Something went wrong whilst matchmaking");
+    }
+
+    public static async void LeaveGame()
+    {
+        activeGame = await GameFinder.LeaveGame();
+        if (activeGame == null) {
+            print("Left game!");
+            return;
+        }
+            print("Could not leave game!");
     }
 
     #endregion
@@ -86,5 +97,10 @@ public class User : MonoBehaviour
         print(data.ToString());
     }
 
+    void OnApplicationQuit()
+    {
+        Debug.Log("Application ending after " + Time.time + " seconds");
+        GameFinder.LeaveGame();
+    }
 
 }

@@ -11,7 +11,7 @@ namespace SaveData
         public string screenName;
         public int score;
 
-        public UserData(string screenName = "dingus")
+        public UserData(string screenName = "unnamed")
         {
             this.screenName = screenName;
             score = 0;

@@ -66,4 +66,18 @@ public static class SaveManager
             return true;
         });
     }
+
+    public async static Task<bool> RemoveNode<T>(string path)
+    {
+        Debug.Log("Removing data...");
+
+        return await FBDatabase.db.RootReference.Child(path).RemoveValueAsync().ContinueWith(task => {
+            if (task.Exception != null) {
+                Debug.LogWarning(task.Exception);
+                return false;
+            }
+            return true;
+        });
+    }
+
 }

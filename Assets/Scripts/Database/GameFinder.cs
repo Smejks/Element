@@ -29,12 +29,6 @@ public static class GameFinder
         return null;
     }
 
-    //public static async Task<GameData> FindGame(string gameID)
-    //{
-    //    GameData requestedGame = await SaveManager.LoadObject<GameData>($"games/{gameID}");
-    //    return requestedGame;
-    //}
-
     public static async Task<GameData> CreateGame()
     {
         Debug.Log("Creating Game...");
@@ -46,4 +40,22 @@ public static class GameFinder
         }
         return game;
     }
+
+    public static async Task<GameData> LeaveGame()
+    {
+        Debug.Log("Leaving Game...");
+        GameData currentGame = User.activeGame;
+        //foreach (var player in currentGame.players) {
+        //    if (player.screenName == User.data.screenName) {
+        //        User.activeGame = null;
+                if (!await SaveManager.RemoveNode<bool>($"games/{currentGame.gameID}")) {
+                    return null;
+                }
+            
+        return null;
+
+    }
+
+
+
 }

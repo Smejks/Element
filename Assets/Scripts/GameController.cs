@@ -73,6 +73,6 @@ public class GameController : MonoBehaviour
 
     public void ConfirmSequence()
     {
-        //SaveManager.SaveObject<List<string>>("games/" + User.activeGame.gameID + "/players/")
+      //SaveManager.SaveObject($"games/{ User.activeGame.gameID}/players/sequence", sequenceTags);
     }
 }

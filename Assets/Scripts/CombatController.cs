@@ -4,8 +4,8 @@ using UnityEngine;
 
 public class CombatController : MonoBehaviour
 {
-    public GameObject gc;
-    public GameObject oc;
+    public GameObject gameController;
+    public GameObject opponentController;
 
     public List<string> playerSequence = new List<string>();
     public List<string> opponentSequence = new List<string>();
@@ -31,9 +31,9 @@ public class CombatController : MonoBehaviour
         audioController = FindObjectOfType<AudioController>();
         StartCoroutine("DelaySequence", 0);
 
-        element0 = gc.GetComponent<GameController>().elements[0];
-        element1 = gc.GetComponent<GameController>().elements[1];
-        element2 = gc.GetComponent<GameController>().elements[2];
+        element0 = gameController.GetComponent<GameController>().elements[0];
+        element1 = gameController.GetComponent<GameController>().elements[1];
+        element2 = gameController.GetComponent<GameController>().elements[2];
 
 
     }
@@ -46,13 +46,13 @@ public class CombatController : MonoBehaviour
 
     private void RenderButton() {
         if (score > 0) {
-            gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU WIN!");
+            gameController.GetComponentInChildren<GameController>().ActivateReturnButton("YOU WIN!");
         }
         else if (score < 0) {
-            gc.GetComponentInChildren<GameController>().ActivateReturnButton("YOU LOSE!");
+            gameController.GetComponentInChildren<GameController>().ActivateReturnButton("YOU LOSE!");
         }
         else {
-            gc.GetComponentInChildren<GameController>().ActivateReturnButton("TIE!");
+            gameController.GetComponentInChildren<GameController>().ActivateReturnButton("TIE!");
         }
         //SaveData.Instance.ClearSequence();
     }
