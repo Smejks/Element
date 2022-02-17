@@ -19,10 +19,11 @@ public static class GameFinder
                 Debug.Log("Open game found!");
                 game.players[1] = new PlayerGameData(User.data.screenName);
                 game.activeGame = true;
+                Debug.Log("Joined open game!");
                 if (!await SaveManager.SaveObject($"games/{game.gameID}", game))
                     return null;
+                return game;
             }
-            //return game;
         }
         Debug.Log("No open games found!");
         return null;
