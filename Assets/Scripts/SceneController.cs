@@ -24,26 +24,33 @@ public class SceneController : MonoBehaviour
 
     public void Confirm()
     {
-        StartCoroutine("NextScene");
+        
+        StartCoroutine(CombatResolutionScene());
     }
 
-    public IEnumerator NextScene()
+    public IEnumerator CombatResolutionScene()
     {
         audioController.PlaySFX(10);
         audioController.PlaySFX(11);
             yield return new WaitForSeconds(0.5f);
         audioController.PlaySFX(13);
             yield return new WaitForSeconds(0.5f);
+        //Add listener to wait for other player sequence before loading.
         SceneManager.LoadScene(2);
     }
 
-    public void FightScene()
+    public void LoadArena()
     {
-        if (currentScene != 0)
-        audioController.PlaySFX(12);
-        SceneManager.LoadScene(1);
+        StartCoroutine(GetOpponentName());
     }
 
-
+    public IEnumerator GetOpponentName()
+    {
+        yield return new WaitForSeconds(2);
+        print(User.activeGame.players[0].screenName);
+        if (User.activeGame.players[0].screenName != null && currentScene != 0)
+            audioController.PlaySFX(12);
+        SceneManager.LoadScene(1);
+    }
 
 }

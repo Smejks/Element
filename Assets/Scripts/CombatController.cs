@@ -1,3 +1,4 @@
+using SaveData;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -34,8 +35,6 @@ public class CombatController : MonoBehaviour
         element0 = gameController.GetComponent<GameController>().elements[0];
         element1 = gameController.GetComponent<GameController>().elements[1];
         element2 = gameController.GetComponent<GameController>().elements[2];
-
-
     }
 
     void Update()
@@ -54,7 +53,6 @@ public class CombatController : MonoBehaviour
         else {
             gameController.GetComponentInChildren<GameController>().ActivateReturnButton("TIE!");
         }
-        //SaveData.Instance.ClearSequence();
     }
 
     IEnumerator DelaySequence(int i)
@@ -71,8 +69,7 @@ public class CombatController : MonoBehaviour
 
     public void DrawPlayerSequence(int i)
     {
-        switch (playerSequence[i])
-        {
+        switch (playerSequence[i]) {
             case "Grass":
                 Instantiate(element0, new Vector2(transform.position.x + i * offsetX, transform.position.y - offsetY), Quaternion.identity, transform);
                 break;
@@ -90,8 +87,7 @@ public class CombatController : MonoBehaviour
     public void DrawOpponentSequence(int i)
     {
 
-        switch (opponentSequence[i])
-        {
+        switch (opponentSequence[i]) {
             case "Grass":
                 Instantiate(element0, new Vector2(transform.position.x + i * offsetX, transform.position.y), Quaternion.identity, transform);
                 break;
@@ -163,4 +159,10 @@ public class CombatController : MonoBehaviour
             }
         }
     }
+
+    public void GetSequence(string screenName)
+    {
+        SaveManager.LoadObject<PlayerGameData>($"games/{User.activeGame.gameID}/{User.data.screenName}")
+    }
+
 }

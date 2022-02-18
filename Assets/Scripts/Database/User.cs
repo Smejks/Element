@@ -97,10 +97,10 @@ public class User : MonoBehaviour
         print(data.ToString());
     }
 
-    void OnApplicationQuit()
-    {
-        Debug.Log("Application ending after " + Time.time + " seconds");
-        GameFinder.LeaveGame();
-    }
+    //void OnApplicationQuit()
+    //{
+    //    Debug.Log("Application ending after " + Time.time + " seconds");
+    //    GameFinder.LeaveGame();
+    //}
 
 }

@@ -1,3 +1,4 @@
+using SaveData;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,9 +15,7 @@ public class GameController : MonoBehaviour
     public List<GameObject> sequenceGameObjects = new List<GameObject>();
     public GameObject Button;
     public TMP_Text ButtonText;
-
-
-
+    
     void Start()
     {
         Button.SetActive(false);
@@ -73,6 +72,8 @@ public class GameController : MonoBehaviour
 
     public void ConfirmSequence()
     {
-      //SaveManager.SaveObject($"games/{ User.activeGame.gameID}/players/sequence", sequenceTags);
+        PlayerGameData playerData = new PlayerGameData(User.data.screenName);
+        playerData.sequence = sequenceTags;
+        SaveManager.SaveObject($"games/{User.activeGame.gameID}/{User.data.screenName}", playerData);
     }
 }
