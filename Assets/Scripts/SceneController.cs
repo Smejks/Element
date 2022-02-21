@@ -52,20 +52,30 @@ public class SceneController : MonoBehaviour
 
     public void AttemptMatchStart(object sender, ValueChangedEventArgs args)
     {
-        if (args.DatabaseError != null) {
-            Debug.LogError(args.DatabaseError.Message);
-            return;
-        }
+        Debug.Log(args.Snapshot.Value);
+        if (!(bool)args.Snapshot.Value) { return; }
 
         if (currentScene != 0) {
             audioController.PlaySFX(12);
-            SceneManager.LoadScene(1);
         }
+        FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/activeGame").ValueChanged -= AttemptMatchStart;
+        SceneManager.LoadScene(1);
+        return;
+    }
+
+    public void Rematch()
+    { 
+        
     }
 
     public void AttemptMatchStart()
     {
         SceneManager.LoadScene(1);
+    }
+
+    void OnDestroy()
+    {
+        FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/activeGame").ValueChanged -= AttemptMatchStart;
     }
 
 }

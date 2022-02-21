@@ -68,9 +68,11 @@ public class GameController : MonoBehaviour
         ButtonText.text = message;
     }
 
-    public void ConfirmSequence()
+    public async void ConfirmSequence()
     {
         User.activeGame.players[User.playerIndex].sequence = sequenceTags;
-        SaveManager.SaveObject($"games/{User.activeGame.gameID}/players/{User.playerIndex}/", User.activeGame.players[User.playerIndex]);
+        User.activeGame.players[User.playerIndex].ready = true;
+        await SaveManager.SaveObject($"games/{User.activeGame.gameID}/players/{User.playerIndex}/", User.activeGame.players[User.playerIndex]);
     }
+
 }

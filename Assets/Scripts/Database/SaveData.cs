@@ -39,11 +39,13 @@ namespace SaveData
     {
         public string screenName;
         public List<string> sequence;
+        public bool ready;
 
         public PlayerGameData(string screenName = "unassigned")
         {
             this.screenName = screenName;
             sequence = new List<string>();
+            ready = false;
         }
 
     }

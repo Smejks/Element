@@ -30,6 +30,7 @@ public class CombatController : MonoBehaviour
     void Start()
     {
         fightOver = false;
+        User.activeGame.players[User.playerIndex].ready = false;
         audioController = FindObjectOfType<AudioController>();
 
         GetSequences();
@@ -42,7 +43,6 @@ public class CombatController : MonoBehaviour
     void Update()
     {
         if (fightOver) RenderButton();
-
     }
 
     private async Task GetSequences()
@@ -73,7 +73,7 @@ public class CombatController : MonoBehaviour
 
     IEnumerator DelaySequence(int i)
     {
-        yield return new WaitForSeconds(2);
+        yield return new WaitForSeconds(0.5f);
         DrawPlayerSequence(i);
         DrawOpponentSequence(i);
         ResolveCombat(i);
