@@ -1,3 +1,4 @@
+using System.Threading.Tasks;
 using SaveData;
 using System.Collections;
 using System.Collections.Generic;
@@ -31,6 +32,8 @@ public class CombatController : MonoBehaviour
         fightOver = false;
         audioController = FindObjectOfType<AudioController>();
         StartCoroutine("DelaySequence", 0);
+        opponentSequence = opponentController.GetComponent<OpponentController>().sequence;
+        GetSequence(User.data.screenName);
 
         element0 = gameController.GetComponent<GameController>().elements[0];
         element1 = gameController.GetComponent<GameController>().elements[1];
@@ -57,6 +60,7 @@ public class CombatController : MonoBehaviour
 
     IEnumerator DelaySequence(int i)
     {
+        yield return new WaitForSeconds(2);
         DrawPlayerSequence(i);
         DrawOpponentSequence(i);
         ResolveCombat(i);
@@ -160,9 +164,11 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void GetSequence(string screenName)
+    private async Task GetSequence(string screenName)
     {
-        SaveManager.LoadObject<PlayerGameData>($"games/{User.activeGame.gameID}/{User.data.screenName}")
+        playerSequence = await SaveManager.LoadMultipleObjects<string>($"games/{User.activeGame.gameID}/{User.data.screenName}/sequence");
+        if (playerSequence != null)
+            Debug.Log($"Loaded {User.data.screenName}'s Sequence");
     }
 
 }

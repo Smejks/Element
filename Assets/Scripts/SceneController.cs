@@ -8,6 +8,7 @@ public class SceneController : MonoBehaviour
     private static SceneController _instance;
     public static SceneController Instance { get { return _instance; } }
 
+    OpponentController opponentController;
     AudioController audioController;
     int currentScene;
    
@@ -15,6 +16,7 @@ public class SceneController : MonoBehaviour
     void Start()
     {
         audioController = FindObjectOfType<AudioController>();
+        opponentController = FindObjectOfType<OpponentController>();
         currentScene = SceneManager.GetActiveScene().buildIndex;
     }
 
@@ -35,7 +37,7 @@ public class SceneController : MonoBehaviour
             yield return new WaitForSeconds(0.5f);
         audioController.PlaySFX(13);
             yield return new WaitForSeconds(0.5f);
-        //Add listener to wait for other player sequence before loading.
+        if (opponentController.sequence != null)
         SceneManager.LoadScene(2);
     }
 

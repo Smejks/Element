@@ -74,6 +74,6 @@ public class GameController : MonoBehaviour
     {
         PlayerGameData playerData = new PlayerGameData(User.data.screenName);
         playerData.sequence = sequenceTags;
-        SaveManager.SaveObject($"games/{User.activeGame.gameID}/{User.data.screenName}", playerData);
+        SaveManager.SaveObject($"games/{User.activeGame.gameID}/{User.data.screenName}", playerData.sequence);
     }
 }
