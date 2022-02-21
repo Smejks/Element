@@ -31,9 +31,8 @@ public class CombatController : MonoBehaviour
     {
         fightOver = false;
         audioController = FindObjectOfType<AudioController>();
-        StartCoroutine("DelaySequence", 0);
-        opponentSequence = opponentController.GetComponent<OpponentController>().sequence;
-        GetSequence(User.data.screenName);
+
+        GetSequences();
 
         element0 = gameController.GetComponent<GameController>().elements[0];
         element1 = gameController.GetComponent<GameController>().elements[1];
@@ -46,7 +45,21 @@ public class CombatController : MonoBehaviour
 
     }
 
-    private void RenderButton() {
+    private async Task GetSequences()
+    {
+
+        playerSequence = await GetSequence(User.playerIndex);
+        Debug.Log("Player Sequence: " + playerSequence);
+        if (User.playerIndex == 0)
+            opponentSequence = await GetSequence(1);
+        else
+            opponentSequence = await GetSequence(0);
+        StartCoroutine("DelaySequence", 0);
+        return;
+    }
+
+    private void RenderButton()
+    {
         if (score > 0) {
             gameController.GetComponentInChildren<GameController>().ActivateReturnButton("YOU WIN!");
         }
@@ -106,7 +119,8 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    public void ResolveCombat(int i) {
+    public void ResolveCombat(int i)
+    {
         if (opponentSequence[i] == playerSequence[i]) {
             results.Add(Instantiate(indicators[0], new Vector2(transform.position.x + i * offsetX, transform.position.y - resultOffsetY), Quaternion.identity, transform));
             audioController.PlaySFX(5);
@@ -145,7 +159,8 @@ public class CombatController : MonoBehaviour
         Invoke("DisplayResults", 0.5f);
     }
 
-    private void DisplayResults() {
+    private void DisplayResults()
+    {
         if (results.Count == 7) {
             fightOver = true;
             if (score > 0) {
@@ -164,11 +179,9 @@ public class CombatController : MonoBehaviour
         }
     }
 
-    private async Task GetSequence(string screenName)
+    private async Task<List<string>> GetSequence(int playerIndex)
     {
-        playerSequence = await SaveManager.LoadMultipleObjects<string>($"games/{User.activeGame.gameID}/{User.data.screenName}/sequence");
-        if (playerSequence != null)
-            Debug.Log($"Loaded {User.data.screenName}'s Sequence");
+        PlayerGameData playerdata = await SaveManager.LoadObject<PlayerGameData>($"games/{User.activeGame.gameID}/players/{playerIndex}/");
+        return playerdata.sequence;
     }
-
 }

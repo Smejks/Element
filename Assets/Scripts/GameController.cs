@@ -9,7 +9,6 @@ using TMPro;
 public class GameController : MonoBehaviour
 {
 
-
     public List<GameObject> elements = new List<GameObject>();
     public List<string> sequenceTags = new List<string>();
     public List<GameObject> sequenceGameObjects = new List<GameObject>();
@@ -25,10 +24,7 @@ public class GameController : MonoBehaviour
         {
             Instantiate(elements[3], new Vector2(transform.position.x + i * 2.2f, transform.position.y), Quaternion.identity);
         }
-
-        
-
-
+                
     }
 
     public void Update()
@@ -59,6 +55,8 @@ public class GameController : MonoBehaviour
         }
     }
 
+
+
     public void ActivateFightButton()
     {
         Button.SetActive(true);
@@ -72,8 +70,7 @@ public class GameController : MonoBehaviour
 
     public void ConfirmSequence()
     {
-        PlayerGameData playerData = new PlayerGameData(User.data.screenName);
-        playerData.sequence = sequenceTags;
-        SaveManager.SaveObject($"games/{User.activeGame.gameID}/{User.data.screenName}", playerData.sequence);
+        User.activeGame.players[User.playerIndex].sequence = sequenceTags;
+        SaveManager.SaveObject($"games/{User.activeGame.gameID}/players/{User.playerIndex}/", User.activeGame.players[User.playerIndex]);
     }
 }

@@ -454,6 +454,7 @@ MonoBehaviour:
   - {fileID: 851411293832139151, guid: 6d768e3740e84f240a5fce97488ee1f4, type: 3}
   sequence: []
   rndSequence: []
+  offsetX: 2.2
 --- !u!4 &591007956
 Transform:
   m_ObjectHideFlags: 0
@@ -806,8 +807,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a4283fac1dfe21748904680de3a38bf6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  gc: {fileID: 106011332}
-  oc: {fileID: 6694481424751409045, guid: 79a2c98b807da70409d389bbe18f51ac, type: 3}
+  gameController: {fileID: 106011332}
+  opponentController: {fileID: 591007954}
   playerSequence: []
   opponentSequence: []
   indicators:
@@ -816,9 +817,9 @@ MonoBehaviour:
   - {fileID: 1947630511184523107, guid: b3ae51e9f10d1304d89e285f4966a05a, type: 3}
   results: []
   offsetY: 6.95
+  offsetX: 2.2
   resultOffsetY: 3.5
   score: 0
-  timer: 0
 --- !u!4 &1201444392
 Transform:
   m_ObjectHideFlags: 0

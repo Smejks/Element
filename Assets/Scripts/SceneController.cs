@@ -1,3 +1,4 @@
+using Firebase.Database;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ public class SceneController : MonoBehaviour
     OpponentController opponentController;
     AudioController audioController;
     int currentScene;
-   
+
 
     void Start()
     {
@@ -26,7 +27,6 @@ public class SceneController : MonoBehaviour
 
     public void Confirm()
     {
-        
         StartCoroutine(CombatResolutionScene());
     }
 
@@ -34,24 +34,37 @@ public class SceneController : MonoBehaviour
     {
         audioController.PlaySFX(10);
         audioController.PlaySFX(11);
-            yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.5f);
         audioController.PlaySFX(13);
-            yield return new WaitForSeconds(0.5f);
-        if (opponentController.sequence != null)
-        SceneManager.LoadScene(2);
+        yield return new WaitForSeconds(0.5f);
+        if (FBDatabase.db.RootReference.Child($"games/{User.activeGame.gameID}/0") != null && FBDatabase.db.RootReference.Child($"games/{User.activeGame.gameID}/1") != null)
+            SceneManager.LoadScene(2);
     }
 
-    public void LoadArena()
+    public async void LoadArena()
     {
-        StartCoroutine(GetOpponentName());
+        await User.MatchMake();
+        if (User.playerIndex == 0)
+            FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/activeGame").ValueChanged += AttemptMatchStart;
+        else
+            AttemptMatchStart();
     }
 
-    public IEnumerator GetOpponentName()
+    public void AttemptMatchStart(object sender, ValueChangedEventArgs args)
     {
-        yield return new WaitForSeconds(2);
-        print(User.activeGame.players[0].screenName);
-        if (User.activeGame.players[0].screenName != null && currentScene != 0)
+        if (args.DatabaseError != null) {
+            Debug.LogError(args.DatabaseError.Message);
+            return;
+        }
+
+        if (currentScene != 0) {
             audioController.PlaySFX(12);
+            SceneManager.LoadScene(1);
+        }
+    }
+
+    public void AttemptMatchStart()
+    {
         SceneManager.LoadScene(1);
     }
 

@@ -2,6 +2,7 @@ using Firebase.Auth;
 using SaveData;
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using UnityEngine;
 
 public class User : MonoBehaviour
@@ -12,6 +13,7 @@ public class User : MonoBehaviour
     public static UserData data;
     public static FirebaseUser user;
     public static GameData activeGame = null;
+    public static int playerIndex;
     public static string userPath;
 
     void Awake()
@@ -60,18 +62,21 @@ public class User : MonoBehaviour
 
     #region matchmaking
 
-    public static async void MatchMake()
+    public static async Task MatchMake()
     {
         GameData foundGame;
         foundGame = await GameFinder.FindGame();
         if (foundGame != null) {
             activeGame = foundGame;
+            playerIndex = 1;
+
             print(activeGame.ToString());
             return;
         }
         foundGame = await GameFinder.CreateGame();
         if (foundGame != null) {
             activeGame = foundGame;
+            playerIndex = 0;
             print(activeGame.ToString());
             return;
         }
