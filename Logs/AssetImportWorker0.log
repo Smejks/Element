@@ -153,3 +153,11 @@ Received Import Request.
 Start importing Assets/Scenes/FightScene.unity using Guid(96f5279016318684a83da7a521e59fbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: '39a61f91fba38947bdbb2de15a84c9c8') in 0.003993 seconds 
   Import took 0.008904 seconds .
 
+========================================================================
+Received Import Request.
+  Time since last request: 265.911513 seconds.
+  path: Assets/Scenes/FightScene.unity
+  artifactKey: Guid(96f5279016318684a83da7a521e59fbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)
+Start importing Assets/Scenes/FightScene.unity using Guid(96f5279016318684a83da7a521e59fbb) Importer(815301076,1909f56bfc062723c751e8b465ee728b)  -> (artifact id: 'cf09860d8ba45ad6ea38c4e9b7e5d19e') in 0.004096 seconds 
+  Import took 0.009092 seconds .
+
