@@ -23,13 +23,13 @@ namespace SaveData
     public class GameData
     {
         public string gameID;
-        public bool activeGame;
+        public bool gameIsActive;
         public PlayerGameData[] players;
 
         public GameData(string gameID)
         {
             this.gameID = gameID;
-            activeGame = false;
+            gameIsActive = false;
             players = new PlayerGameData[2];
         }
         public override string ToString() => $"game: (game ID: {gameID})";

@@ -15,10 +15,10 @@ public static class GameFinder
             return null;
         }
         foreach (GameData game in games) {
-            if (!game.activeGame) {
+            if (!game.gameIsActive) {
                 Debug.Log("Open game found!");
                 game.players[1] = new PlayerGameData(User.data.screenName);
-                game.activeGame = true;
+                game.gameIsActive = true;
                 Debug.Log("Joined open game!");
                 if (!await SaveManager.SaveObject($"games/{game.gameID}", game))
                     return null;
@@ -44,11 +44,7 @@ public static class GameFinder
     public static async Task<GameData> LeaveGame()
     {
         Debug.Log("Leaving Game...");
-        GameData currentGame = User.activeGame;
-        //foreach (var player in currentGame.players) {
-        //    if (player.screenName == User.data.screenName) {
-        //        User.activeGame = null;
-                if (!await SaveManager.RemoveNode<bool>($"games/{currentGame.gameID}")) {
+                if (!await SaveManager.RemoveNode<bool>($"games/{User.activeGame.gameID}")) {
                     return null;
                 }
             
