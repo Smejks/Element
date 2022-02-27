@@ -73,7 +73,7 @@ public class CombatController : MonoBehaviour
 
     IEnumerator DelaySequence(int i)
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.2f);
         DrawPlayerSequence(i);
         DrawOpponentSequence(i);
         ResolveCombat(i);

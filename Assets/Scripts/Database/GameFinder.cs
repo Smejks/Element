@@ -16,13 +16,18 @@ public static class GameFinder
         }
         foreach (GameData game in games) {
             if (!game.gameIsActive) {
-                Debug.Log("Open game found!");
-                game.players[1] = new PlayerGameData(User.data.screenName);
-                game.gameIsActive = true;
-                Debug.Log("Joined open game!");
-                if (!await SaveManager.SaveObject($"games/{game.gameID}", game))
-                    return null;
-                return game;
+                if (game.players[0].screenName == User.data.screenName) {
+                    await SaveManager.RemoveNode<bool>($"games/{game.gameID}");
+                }
+                else {
+                    Debug.Log("Open game found!");
+                    game.players[1] = new PlayerGameData(User.data.screenName);
+                    game.gameIsActive = true;
+                    Debug.Log("Joined open game!");
+                    if (!await SaveManager.SaveObject($"games/{game.gameID}", game))
+                        return null;
+                    return game;
+                }
             }
         }
         Debug.Log("No open games found!");
@@ -44,10 +49,10 @@ public static class GameFinder
     public static async Task<GameData> LeaveGame()
     {
         Debug.Log("Leaving Game...");
-                if (!await SaveManager.RemoveNode<bool>($"games/{User.activeGame.gameID}")) {
-                    return null;
-                }
-            
+        if (!await SaveManager.RemoveNode<bool>($"games/{User.activeGame.gameID}")) {
+            return null;
+        }
+
         return null;
 
     }

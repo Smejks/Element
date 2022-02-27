@@ -47,13 +47,15 @@ public class SceneController : MonoBehaviour
         Debug.Log(args.Snapshot.Value);
         if (!(bool)args.Snapshot.Value) { return; }
 
-        if (User.playerIndex == 0) {
-            FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptResolutionStart;
-            SceneManager.LoadScene(2);
-        }
-        else {
-            FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptResolutionStart;
-            SceneManager.LoadScene(2);
+        if (User.activeGame.players[User.playerIndex].ready) {
+            if (User.playerIndex == 0) {
+                FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptResolutionStart;
+                SceneManager.LoadScene(2);
+            }
+            else {
+                FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptResolutionStart;
+                SceneManager.LoadScene(2);
+            }
         }
         return;
     }
@@ -101,7 +103,11 @@ public class SceneController : MonoBehaviour
     {
         User.activeGame.players[User.playerIndex].ready = false;
         await SaveManager.SaveObject($"games/{User.activeGame.gameID}/players/{User.playerIndex}/", User.activeGame.players[User.playerIndex]);
-        await SaveManager.RemoveNode<bool>($"games/{User.activeGame.gameID}/players/{User.playerIndex}/sequence");
+        if (User.playerIndex == 0)
+            FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptResolutionStart;
+        else
+            FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptResolutionStart;
+        SceneManager.LoadScene(1);
     }
 
     void OnDestroy()
