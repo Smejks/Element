@@ -70,7 +70,6 @@ public class GameController : MonoBehaviour
 
     public async void ConfirmSequence()
     {
-        await SaveManager.RemoveNode<bool>($"games/{User.activeGame.gameID}/players/{User.playerIndex}/sequence");
         User.activeGame.players[User.playerIndex].sequence = sequenceTags;
         User.activeGame.players[User.playerIndex].ready = true;
         await SaveManager.SaveObject($"games/{User.activeGame.gameID}/players/{User.playerIndex}/", User.activeGame.players[User.playerIndex]);

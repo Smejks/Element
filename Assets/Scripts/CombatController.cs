@@ -30,7 +30,6 @@ public class CombatController : MonoBehaviour
     void Start()
     {
         fightOver = false;
-        User.activeGame.players[User.playerIndex].ready = false;
         audioController = FindObjectOfType<AudioController>();
 
         GetSequences();
@@ -49,12 +48,13 @@ public class CombatController : MonoBehaviour
     {
 
         playerSequence = await GetSequence(User.playerIndex);
-        Debug.Log("Player Sequence: " + playerSequence);
         if (User.playerIndex == 0)
             opponentSequence = await GetSequence(1);
         else
             opponentSequence = await GetSequence(0);
+
         StartCoroutine("DelaySequence", 0);
+
         return;
     }
 
