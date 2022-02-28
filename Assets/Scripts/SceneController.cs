@@ -78,7 +78,6 @@ public class SceneController : MonoBehaviour
         }
         FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/gameIsActive").ValueChanged -= AttemptMatchStart;
         audioController.audiosource.Stop();
-        Debug.Log("Player joined! Starting match...");
         SceneManager.LoadScene(1);
     }
 
@@ -86,7 +85,6 @@ public class SceneController : MonoBehaviour
     public void AttemptMatchStart()
     {
         audioController.audiosource.Stop();
-        Debug.Log("Game Found! Starting match...");
         SceneManager.LoadScene(1);
     }
 
@@ -123,14 +121,20 @@ public class SceneController : MonoBehaviour
 
     public void AttemptRematchStart(object sender, ValueChangedEventArgs args)
     {
+        Debug.Log(args.Snapshot.Value);
+        if ((bool)args.Snapshot.Value) { return; }
+
         if (User.playerIndex == 0) {
             FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptRematchStart;
+            Debug.Log("Other player readied up! Initializing Rematch!");
+            SceneManager.LoadScene(1);
         }
         else {
             FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptRematchStart;
+            Debug.Log("Other player readied up! Initializing Rematch!");
+            SceneManager.LoadScene(1);
         }
-        Debug.Log("Other player readied up! Initializing Rematch!");
-        SceneManager.LoadScene(1);
+        
     }
 
 
