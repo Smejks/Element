@@ -102,6 +102,12 @@ public class User : MonoBehaviour
         print(data.ToString());
     }
 
+    public static async void LoadGameData()
+    {
+        if (activeGame == null) { return; }
+        activeGame = await SaveManager.LoadObject<GameData>($"games/{activeGame.gameID}");
+    }
+
     //void OnApplicationQuit()
     //{
     //    Debug.Log("Application ending after " + Time.time + " seconds");
