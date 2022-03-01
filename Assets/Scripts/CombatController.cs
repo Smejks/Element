@@ -53,7 +53,8 @@ public class CombatController : MonoBehaviour
         else
             opponentSequence = await GetSequence(0);
 
-        StartCoroutine("DelaySequence", 0);
+        
+        StartCoroutine("DelaySequence", 2);
 
         return;
     }
@@ -73,7 +74,7 @@ public class CombatController : MonoBehaviour
 
     IEnumerator DelaySequence(int i)
     {
-        yield return new WaitForSeconds(0.2f);
+        yield return new WaitForSeconds(0.15f);
         DrawPlayerSequence(i);
         DrawOpponentSequence(i);
         ResolveCombat(i);
@@ -103,7 +104,6 @@ public class CombatController : MonoBehaviour
 
     public void DrawOpponentSequence(int i)
     {
-
         switch (opponentSequence[i]) {
             case "Grass":
                 Instantiate(element0, new Vector2(transform.position.x + i * offsetX, transform.position.y), Quaternion.identity, transform);
