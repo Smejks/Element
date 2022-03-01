@@ -44,7 +44,7 @@ public class SceneController : MonoBehaviour
         audioController.audiosource.Stop();
         SceneManager.LoadScene(1);
     }
-    
+
 
     public void AttemptMatchStart()
     {
@@ -64,26 +64,26 @@ public class SceneController : MonoBehaviour
         User.data.screenName = User.activeGame.players[User.playerIndex].screenName;
         await SaveManager.SaveObject($"games/{User.activeGame.gameID}/players/{User.playerIndex}/", User.activeGame.players[User.playerIndex]);
 
-        
-            if (User.playerIndex == 0) {
-                PlayerGameData opponentData = await SaveManager.LoadObject<PlayerGameData>($"games/{User.activeGame.gameID}/players/1/");
-                if (!opponentData.ready) {
-                    AttemptRematchStart();
-                }
-                else {
-                    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged += AttemptRematchStart;
-                }
+
+        if (User.playerIndex == 0) {
+            PlayerGameData opponentData = await SaveManager.LoadObject<PlayerGameData>($"games/{User.activeGame.gameID}/players/1/");
+            if (!opponentData.ready) {
+                AttemptRematchStart();
             }
             else {
-                PlayerGameData opponentData = await SaveManager.LoadObject<PlayerGameData>($"games/{User.activeGame.gameID}/players/0/");
-                if (!opponentData.ready) {
-                    AttemptRematchStart();
-                }
-                else {
-                    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged += AttemptRematchStart;
-                }
+                FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged += AttemptRematchStart;
             }
-        
+        }
+        else {
+            PlayerGameData opponentData = await SaveManager.LoadObject<PlayerGameData>($"games/{User.activeGame.gameID}/players/0/");
+            if (!opponentData.ready) {
+                AttemptRematchStart();
+            }
+            else {
+                FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged += AttemptRematchStart;
+            }
+        }
+
     }
 
     public void AttemptRematchStart(object sender, ValueChangedEventArgs args)
@@ -101,7 +101,7 @@ public class SceneController : MonoBehaviour
             Debug.Log("Other player readied up! Initializing Rematch!");
             SceneManager.LoadScene(1);
         }
-        
+
     }
 
 
@@ -142,23 +142,30 @@ public class SceneController : MonoBehaviour
                 FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptResolutionStart;
             }
             Debug.Log("Other player readied up! Resolving combat!");
-            SceneManager.LoadScene(2);
+            StartCoroutine(DelaySceneChange());
         }
     }
+
+    IEnumerator DelaySceneChange()
+    {
+        yield return new WaitForSeconds(2);
+        SceneManager.LoadScene(2);
+    }
+
     //void OnDisable()
     //{
-    //    //GameFinder.LeaveGame();
-    //    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/gameIsActive").ValueChanged -= AttemptMatchStart;
-    //    if (User.playerIndex == 0) {
-    //        FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptResolutionStart;
-    //        FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptRematchStart;
-    //        FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptMatchStart;
-    //    }
-    //    else {
-    //        FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptResolutionStart;
-    //        FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptRematchStart;
-    //        FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptMatchStart;
-    //    }
+    //    GameFinder.LeaveGame();
+    //    //FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/gameIsActive").ValueChanged -= AttemptMatchStart;
+    //    //if (User.playerIndex == 0) {
+    //    //    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptResolutionStart;
+    //    //    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptRematchStart;
+    //    //    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/1/ready").ValueChanged -= AttemptMatchStart;
+    //    //}
+    //    //else {
+    //    //    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptResolutionStart;
+    //    //    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptRematchStart;
+    //    //    FBDatabase.db.GetReference($"games/{User.activeGame.gameID}/players/0/ready").ValueChanged -= AttemptMatchStart;
+    //    //}
 
     //}
 

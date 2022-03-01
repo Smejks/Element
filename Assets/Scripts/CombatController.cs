@@ -53,8 +53,8 @@ public class CombatController : MonoBehaviour
         else
             opponentSequence = await GetSequence(0);
 
-        
-        StartCoroutine("DelaySequence", 2);
+
+        StartCoroutine("DelaySequence", 0);
 
         return;
     }
@@ -75,6 +75,7 @@ public class CombatController : MonoBehaviour
     IEnumerator DelaySequence(int i)
     {
         yield return new WaitForSeconds(0.15f);
+
         DrawPlayerSequence(i);
         DrawOpponentSequence(i);
         ResolveCombat(i);
