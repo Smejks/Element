@@ -37,9 +37,6 @@ public class AudioController : MonoBehaviour
         if (!audiosource.isPlaying) {
             RandomizeSong();
         }
-
-
-
     }
     private void RandomizeSong()
     {
