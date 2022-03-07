@@ -166,7 +166,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7af62d7f541629d40a4014d7e0e3374c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  currentScene: 0
 --- !u!1 &143888818
 GameObject:
   m_ObjectHideFlags: 0
@@ -470,7 +469,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: a873994548cd58745af26786eef8dcd7, type: 3}
   - {fileID: 8300000, guid: a00902591ea6fa84fbb6b86315d3605d, type: 3}
   - {fileID: 8300000, guid: c5bf46bd80ff4b84f8bbeaa64a5d66fb, type: 3}
-  song: 0
+  audiosource: {fileID: 0}
   lastSong: 0
   sfx: 0
 --- !u!4 &215497834
@@ -3672,12 +3671,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_UiScaleMode: 0
+  m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
   m_ReferenceResolution: {x: 800, y: 600}
   m_ScreenMatchMode: 0
-  m_MatchWidthOrHeight: 0
+  m_MatchWidthOrHeight: 1
   m_PhysicalUnit: 3
   m_FallbackScreenDPI: 96
   m_DefaultSpriteDPI: 96
